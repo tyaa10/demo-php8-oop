@@ -1,4 +1,5 @@
 <?php
+require_once './counter.php';
 // класс модели составного числа
 class MathComplex {
     // поля для объекта - вещественная и мнимая части составного числа
@@ -55,3 +56,14 @@ $sub = $mc1->subtract;
 var_dump($sub);
 $sub($mc2);
 echo "$mc1\n";
+
+echo Counter::getCount()."\n";
+$counters = [];
+for ($i = 0; $i < 10; $i++) {
+    $counters[] = new Counter();
+}
+echo Counter::getCount()."\n";
+$counters[2] = null;
+echo Counter::getCount()."\n";
+var_dump($counters);
+echo 'The End!';
