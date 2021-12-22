@@ -9,11 +9,15 @@ class MathComplex {
         $this->re += $re;
         $this->im += $im;
     }
+    public function __toString()
+    {
+        return "MathComplex {re: $this->re, im: $this->im}";
+    }
 }
 
 // $mc1 = new MathComplex();
 $mc1 = new MathComplex;
 $mc1->add(2, 3);
 $mc1->add(1, 1);
-var_dump($mc1);
-// echo $mc1;
+// var_dump($mc1);
+echo $mc1;
