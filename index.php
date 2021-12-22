@@ -4,10 +4,16 @@ class MathComplex {
     // поля для объекта - вещественная и мнимая части составного числа
     public $re, $im;
     // метод сложения текущего составного числа с другим числом,
-    // также заданным объектом типа MathComplex
-    function add(MathComplex $mc): void {
-        $this->re += $mc->re;
-        $this->im += $mc->im;
+    // заданным двумя отдельными составляющими
+    // или объектом типа MathComplex
+    function add(...$args): void {
+        if (count($args) === 1 && $args[0] instanceof MathComplex) {
+            $this->re += $args[0]->re;
+            $this->im += $args[0]->im;
+        } else if(floatval($args[0]) !== false && floatval($args[1]) !== false) {
+            $this->re += $args[0];
+            $this->im += $args[1];
+        }
     }
     public function __toString()
     {
@@ -25,4 +31,9 @@ $mc2->re = 1;
 $mc2->im = 1;
 
 $mc1->add($mc2);
-echo $mc1;
+
+echo "$mc1\n";
+
+$mc1->add(-3, -4);
+
+echo "$mc1\n";
