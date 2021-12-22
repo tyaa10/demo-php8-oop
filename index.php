@@ -37,3 +37,21 @@ echo "$mc1\n";
 $mc1->add(-3, -4);
 
 echo "$mc1\n";
+
+$mc1->e = 2.71;
+echo $mc1->e;
+
+$mc1->subtract = (function (...$args) {
+    if (count($args) === 1 && $args[0] instanceof MathComplex) {
+        $this->re -= $args[0]->re;
+        $this->im -= $args[0]->im;
+    } else if(floatval($args[0]) !== false && floatval($args[1]) !== false) {
+        $this->re -= $args[0];
+        $this->im -= $args[1];
+    }
+})->bindTo($mc1);
+
+$sub = $mc1->subtract;
+var_dump($sub);
+$sub($mc2);
+echo "$mc1\n";
