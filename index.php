@@ -67,3 +67,24 @@ $counters[2] = null;
 echo Counter::getCount()."\n";
 var_dump($counters);
 echo 'The End!';
+
+/* Inheritance */
+
+class A {
+    function foo() {
+        return 'SMTH';
+    }
+}
+
+class B extends A {
+    function foo() {
+        return parent::foo() . " Else...\n";
+    }
+}
+echo (new B())->foo();
+
+function outerFoo (A $a) : void {
+    echo $a->foo();
+}
+
+outerFoo(new B());
