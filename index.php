@@ -88,3 +88,23 @@ function outerFoo (A $a) : void {
 }
 
 outerFoo(new B());
+
+
+$x = 101;
+$name = 'x';
+echo "{$$name}\n"; // "$x\n"
+
+$mc3 = new Counter;
+$mc3->x = 200;
+echo "{$mc3->x}\n";
+echo "{$mc3->y}\n";
+
+$mc3->getId = (function () {
+    return $this->id;
+})->bindTo($mc3);
+$mc3->setId = (function ($id) {
+    $this->id = $id;
+})->bindTo($mc3);
+// echo $mc3->unfamiliarFunctions['getId']();
+$mc3->setId(33);
+echo $mc3->getId();
