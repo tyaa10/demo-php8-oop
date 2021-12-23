@@ -108,3 +108,37 @@ $mc3->setId = (function ($id) {
 // echo $mc3->unfamiliarFunctions['getId']();
 $mc3->setId(33);
 echo $mc3->getId();
+
+class Test {
+    public function __toString()
+    {
+        return 'Test';
+    }
+}
+
+$t = new Test;
+$t->foo = function () {
+    // регистрация в текущем сценарии всех переменных,
+    // перечисленных в массиве-аргументе
+    extract(
+        // образование массива-словаря,
+        // в котором есть один элемент,
+        // ключ этого элемента - this, на основании которого extract образует переменную $this,
+        // а значение - это ближайший объект, внутри которого будет вызван метод foo
+        array('context' => function ()
+        {
+            foreach(debug_backtrace(false) as $stack){
+                var_dump($stack);
+                if(isset($stack['object']) && !($stack['object'] instanceof Closure)){
+                    return $stack['object'];
+                }
+            }
+            return null;
+        })
+    );
+    $context = $context->__invoke();
+    // var_dump($context->__invoke());
+    echo "Hello Function from $context";
+};
+var_dump($t->foo->__invoke());
+// $t->foo();
