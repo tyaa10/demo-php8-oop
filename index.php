@@ -1,7 +1,32 @@
 <?php
 require_once './counter.php';
+abstract class MathObject {
+    private int $id = 0;
+    public function setId (int $id): void {
+        $this->id = $id;
+    }
+    public function getId (): int {
+        return $this->id;
+    }
+}
+interface IAddable {
+    function add(...$args): void;
+}
+trait Diff {
+    function minus(...$args): void {
+        if (count($args) === 1 && $args[0] instanceof MathComplex) {
+            $this->re -= $args[0]->re;
+            $this->im -= $args[0]->im;
+        } else if(floatval($args[0]) !== false && floatval($args[1]) !== false) {
+            $this->re -= $args[0];
+            $this->im -= $args[1];
+        }
+    }
+}
 // класс модели составного числа
-class MathComplex {
+class MathComplex extends MathObject implements IAddable {
+    // подключение составляющих трейта Diff
+    use Diff;
     // поля для объекта - вещественная и мнимая части составного числа
     public $re, $im;
     // метод сложения текущего составного числа с другим числом,
@@ -31,9 +56,10 @@ $mc2 = new MathComplex;
 $mc2->re = 1;
 $mc2->im = 1;
 
-$mc1->add($mc2);
+// $mc1->add($mc2);
+$mc1->minus($mc2);
 
-echo "$mc1\n";
+echo "mc1 - mc2 = $mc1\n";
 
 $mc1->add(-3, -4);
 
@@ -116,7 +142,7 @@ class Test {
     }
 }
 
-$t = new Test;
+/* $t = new Test;
 $t->foo = function () {
     // регистрация в текущем сценарии всех переменных,
     // перечисленных в массиве-аргументе
@@ -141,4 +167,8 @@ $t->foo = function () {
     echo "Hello Function from $context";
 };
 var_dump($t->foo->__invoke());
-// $t->foo();
+// $t->foo(); */
+
+$mc4 = new MathComplex;
+$mc4->setId(555);
+echo '$mc4->getId() = ' . $mc4->getId();
